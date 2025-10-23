@@ -4,8 +4,11 @@
 #include<iostream>
 #include <vector>
 #include <ctime>
+#include <algorithm>
+#include<unordered_map>
 using namespace std;
 
+// pose node
 
 struct post{
     string username;
@@ -18,6 +21,16 @@ struct post{
     }
 };
 
+// graph node
+
+// struct GraphNode{
+//     string username;
+//     // AVLTree* friends;
+//     GraphNode(string user = "") : username(user) {}
+// };
+
+
+
 struct post_node{
     post* p;
     post_node* left;
@@ -25,21 +38,14 @@ struct post_node{
     post_node* parent;
     int height;
     post_node(post* postptr): p(postptr), left(nullptr), right(nullptr), parent(nullptr), height(0) {}
-
 };
+
+
 
 int height(post_node *node){
     if (!node)
         return -1;
     return node->height;
-}
-
-post_node *mini(post_node *node){
-    post_node *current = node;
-    while (current->left){
-        current = current->left;
-    }
-    return current;
 }
 
 int getBalance(post_node *node){
@@ -61,6 +67,7 @@ post_node* rightRotate(post_node* y){
     x->height = 1 + max(height(x->left), height(x->right));
     return x;
 }
+
 post_node* leftRotate(post_node* y){
     post_node* x = y->right;
     post_node* tre = x->left;
@@ -77,8 +84,8 @@ post_node* leftRotate(post_node* y){
 
 class AVLTree{
     private:
-        void deleteTree(post_node* node){
-            if(node){
+        void deleteTree(post_node *node){
+            if (node){
                 deleteTree(node->left);
                 deleteTree(node->right);
                 delete node->p;
@@ -97,6 +104,7 @@ class AVLTree{
                 root->right = insertRec(root->right, p);
                 if(root->right) root->right->parent = root;
             } else {
+                delete p;
                 return root; 
             }
             root->height = 1 + max(height(root->left), height(root->right));
@@ -121,17 +129,41 @@ class AVLTree{
             return root;
         }
 
-    public:
-        post_node* root;
+        public : post_node *root;
         AVLTree(): root(nullptr) {}
         ~AVLTree(){
             deleteTree(root);
         }
-        void insert(post* p){
+        void insert(string username, string content){
+            time_t now = time(0);
+            post* p = new post(username, content, now);
             root = insertRec(root,p);
         }
 };
 
 
 
+
+// process input command
+vector<string> process(string command){
+    vector<string> result(3, "") ;
+    int i = 0;
+    while (i < (int)command.size() && command[i] != ' '){
+        result[0] += command[i];
+        i++;
+    }
+    while (i < (int)command.size() && command[i] == ' '){
+        i++;
+    }
+    while (i < (int)command.size() && command[i] != ' '){
+        result[1] += command[i];
+        i++;
+    }
+    i++;
+    while (i < (int)command.size()){
+        result[2] += command[i];
+        i++;
+    }
+    return result;
+}
 #endif
