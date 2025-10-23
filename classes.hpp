@@ -6,6 +6,8 @@
 #include <ctime>
 #include <algorithm>
 #include<unordered_map>
+#include <cctype>
+
 using namespace std;
 
 // pose node
@@ -21,13 +23,13 @@ struct post{
     }
 };
 
-// graph node
+//graph node
 
-// struct GraphNode{
-//     string username;
-//     // AVLTree* friends;
-//     GraphNode(string user = "") : username(user) {}
-// };
+struct graph_node{
+    string username;
+    // AVLTree* friends;
+    graph_node(string user = "") : username(user) {}
+};
 
 
 
@@ -145,6 +147,7 @@ class AVLTree{
 
 
 // process input command
+
 vector<string> process(string command){
     vector<string> result(3, "") ;
     int i = 0;
@@ -166,4 +169,9 @@ vector<string> process(string command){
     }
     return result;
 }
+
+void lowercase(string &s){
+    transform(s.begin(), s.end(), s.begin(), ::tolower);
+}
+
 #endif

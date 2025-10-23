@@ -2,7 +2,7 @@
 using namespace std;
 
 int main(){
-    unordered_map<string, GraphNode*> users;
+    unordered_map<string, graph_node*> users;
     while(true){
         cout << "> ";
         string command;
@@ -20,14 +20,16 @@ int main(){
                 cout<<"Username cannot contain spaces"<<endl;
                 continue;
             }
-            string username = inp[1];
 
+            lowercase(inp[1]);
+
+            string username = inp[1];
             if(users.find(username)!=users.end()){
                 cout<<"User "<<username<<" already exists"<<endl;
                 continue;
             }
 
-            GraphNode* newUser = new GraphNode(username);
+            graph_node* newUser = new graph_node(username);
             users[username] = newUser;
             cout<<"User "<<username<<" added successfully"<<endl;
         }
@@ -40,6 +42,10 @@ int main(){
                 cout<<"need 2 usernames"<<endl;
                 continue;
             }
+
+            lowercase(inp[1]);
+            lowercase(inp[2]);
+            
             string user1 = inp[1];
             string user2 = inp[2];
             if(users.find(user1)==users.end()&& users.find(user2)==users.end()){
@@ -54,7 +60,7 @@ int main(){
                 cout<<"User "<<user2<<" does not exist"<<endl;
                 continue;
             }
-            
+
             // Check if they are already friends
             // For simplicity, we will not implement a full AVL tree here
             // Just a placeholder for adding friends
