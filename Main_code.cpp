@@ -61,7 +61,6 @@ int main(){
                 continue;
             }
 
-            // Check if they are already friends
             if(users[user1]->followers.find(user2)!=users[user1]->followers.end()){
                 cout<<"User "<<user1<<" and "<<user2<<" are already friends"<<endl;
                 continue;
@@ -89,7 +88,7 @@ int main(){
 
             vector<string> friends(users[username]->followers.begin(), users[username]->followers.end());
             sort(friends.begin(), friends.end());
-            cout<<"Friends of "<<username<<": ..."<<endl;
+            cout<<"Friends of "<<username<<endl;
             for(const string& friend_name : friends){
                 cout<<friend_name<<endl;
             }
@@ -119,7 +118,7 @@ int main(){
                 cout<<"Enter a valid number for friends to recommend"<<endl;
                 continue;
             }
-            cout<<"Friend suggestions for "<<username<<": ..."<<endl;
+            cout<<"Friend suggestions for "<<username<<": "<<endl;
             suggest_friends(username, n, users);
 
 

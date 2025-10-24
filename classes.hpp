@@ -211,6 +211,10 @@ void suggest_friends(string user, int n, unordered_map<string, graph_node*> &use
         }
     }
     vector<pair<string, int>> suggestions(mutual_count.begin(), mutual_count.end());
+    if(suggestions.empty()){
+        cout << "No user to suggest" << endl;
+        return;
+    }
     sort(suggestions.begin(), suggestions.end(), comparator);
     for(int i = 0; i < min(n, (int)suggestions.size()); i++){
         cout <<i+1<<" : "<< suggestions[i].first << endl;
