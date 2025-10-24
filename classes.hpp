@@ -6,7 +6,10 @@
 #include <ctime>
 #include <algorithm>
 #include<unordered_map>
+#include<unordered_set>
 #include <cctype>
+#include<queue>
+
 
 using namespace std;
 
@@ -25,11 +28,7 @@ struct post{
 
 //graph node
 
-struct graph_node{
-    string username;
-    // AVLTree* friends;
-    graph_node(string user = "") : username(user) {}
-};
+
 
 
 
@@ -53,7 +52,7 @@ int height(post_node *node){
 int getBalance(post_node *node){
     if(!node)
         return 0;
-    return height(node->left) - height(node->right);
+    return height(node->left) - height(node->right); 
 }
 
 post_node* rightRotate(post_node* y){
@@ -93,6 +92,15 @@ class AVLTree{
                 delete node->p;
                 delete node;
             }
+        }
+
+        void printtree(post_node* node , int const n , int &k){
+            if(!node) return;
+            printtree(node->right, n, k);
+            if(n==k) return;
+            cout << k+1 << " : "<< node->p->content  << endl;
+            k++;
+            printtree(node->left, n, k);
         }
 
         post_node* insertRec(post_node* root, post* p){
@@ -141,10 +149,50 @@ class AVLTree{
             post* p = new post(username, content, now);
             root = insertRec(root,p);
         }
+        void printnposts(int n){
+            int k = 0;
+            printtree(root, n, k);
+        }
+};
+
+struct graph_node
+{
+    string username;
+    unordered_set<string> followers = {};
+    AVLTree posts;
+    graph_node(string user = "") : username(user) {}
 };
 
 
 
+int min_dis(string user1 , string user2 , unordered_map<string, graph_node*> &users){
+    if(user1 == user2) return 0;
+    unordered_set<string> visited;
+    int level = 0;
+    queue<string> q;
+    q.push(user1);
+    visited.insert(user1);
+    q.push("");
+    while(!q.empty()){
+        string curr = q.front();
+        q.pop();
+        if(curr == ""){
+            level++;
+            if(!q.empty()) q.push("");
+            continue;
+        }
+        for(auto follower : users[curr]->followers){
+            if(visited.find(follower) == visited.end()){
+                if(follower == user2){
+                    return level + 1;
+                }
+                visited.insert(follower);
+                q.push(follower);
+            }
+        }
+    }
+    return -1;
+}
 
 // process input command
 
