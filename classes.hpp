@@ -193,7 +193,29 @@ int min_dis(string user1 , string user2 , unordered_map<string, graph_node*> &us
     }
     return -1;
 }
-
+bool comparator(pair<string, int> &a, pair<string, int> &b){
+    if(a.second == b.second){
+        return a.first < b.first;
+    }
+    return a.second > b.second;
+}
+void suggest_friends(string user, int n, unordered_map<string, graph_node*> &users){
+    unordered_map<string, int> mutual_count;
+    unordered_set<string> user_followers = users[user]->followers;
+    for(const string &a : user_followers){
+        for(const string &b : users[a]->followers){
+            if(b == user) continue;
+            if(user_followers.find(b) == user_followers.end()){
+                mutual_count[b]++;
+            }
+        }
+    }
+    vector<pair<string, int>> suggestions(mutual_count.begin(), mutual_count.end());
+    sort(suggestions.begin(), suggestions.end(), comparator);
+    for(int i = 0; i < min(n, (int)suggestions.size()); i++){
+        cout <<i+1<<" : "<< suggestions[i].first << endl;
+    }
+}
 // process input command
 
 vector<string> process(string command){

@@ -100,8 +100,8 @@ int main(){
                 cout<<"Enter the username"<<endl;
                 continue;
             }
-            if(inp[2]!=""){
-                cout<<"Username can't have spaces"<<endl;
+            if(inp[2]==""){
+                cout<<"Enter the number of friends to recommend "<<endl;
                 continue;
             }
             lowercase(inp[1]);
@@ -111,9 +111,18 @@ int main(){
                 cout<<"User "<<username<<" does not exist"<<endl;
                 continue;
             }
+            int n;
+            try{
+                n = stoi(inp[2]);
+            }
+            catch(...){
+                cout<<"Enter a valid number for friends to recommend"<<endl;
+                continue;
+            }
+            cout<<"Friend suggestions for "<<username<<": ..."<<endl;
+            suggest_friends(username, n, users);
 
-            // Placeholder for suggesting friends
-            // cout<<"Friend suggestions for "<<username<<": ..."<<endl;
+
         }
         else if(inp[0]=="DEGREES_OF_SEPERATION"){
             if(inp[1]==""){
