@@ -123,7 +123,7 @@ int main(){
 
 
         }
-        else if(inp[0]=="DEGREES_OF_SEPERATION"){
+        else if(inp[0]=="DEGREES_OF_SEPARATION"){
             if(inp[1]==""){
                 cout<<"Enter usernames"<<endl;
                 continue;
@@ -165,6 +165,7 @@ int main(){
             }
 
             lowercase(inp[1]);
+            lowercase(inp[2]);
 
             string username = inp[1];
             string content = inp[2];
